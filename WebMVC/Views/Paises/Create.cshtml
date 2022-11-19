@@ -1,0 +1,64 @@
+﻿@model WebMVC.Models.PaisViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear</h1>
+<span class="text-danger">@ViewBag.Error</span>
+<h4>Pais</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create"enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Pais.Nombre" class="control-label"></label>
+                <input asp-for="Pais.Nombre" class="form-control" />
+                <span asp-validation-for="Pais.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pais.Codigo" class="control-label"></label>
+                <input asp-for="Pais.Codigo" class="form-control" />
+                <span asp-validation-for="Pais.Codigo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pais.Pbi" class="control-label"></label>
+                <input asp-for="Pais.Pbi" class="form-control" />
+                <span asp-validation-for="Pais.Pbi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pais.Poblacion" class="control-label"></label>
+                <input asp-for="Pais.Poblacion" class="form-control" />
+                <span asp-validation-for="Pais.Poblacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bandera" class="control-label"></label>
+                <input asp-for="Bandera" class="form-control" />
+                <span asp-validation-for="Bandera" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="IdRegionSeleccionada" id="regiones">
+                    @if (Model.Regiones != null)
+                    {@foreach (var region in Model.Regiones)
+                        {
+                            <option value="@region.Id">@region.Nombre</option>
+                        }}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

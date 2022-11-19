@@ -1,0 +1,93 @@
+﻿@model WebMVC.Models.SeleccionViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Seleccion</h4>
+<span class="text-danger">@ViewBag.Error</span>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+
+                <input asp-for="seleccion.PaisId" id="PaisId" class="form-control" />
+                <input asp-for="seleccion.Id" id="Id" class="form-control" />
+
+            </div>
+            <div class="form-group">
+
+                <input asp-for="seleccion.GrupoId" id="GrupoId" class="form-control" />
+
+            </div>
+            <image src="/Banderas/@Model.seleccion.Pais.Bandera" height="50px"></image>
+            <div class="form-group">
+                <label asp-for="seleccion.Nombre" class="control-label"></label>
+                <input asp-for="seleccion.Nombre" class="form-control" />
+                <span asp-validation-for="seleccion.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="seleccion.Email" class="control-label"></label>
+                <input asp-for="seleccion.Email" class="form-control" />
+                <span asp-validation-for="seleccion.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="seleccion.Telefono" class="control-label"></label>
+                <input asp-for="seleccion.Telefono" class="form-control" />
+                <span asp-validation-for="seleccion.Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="seleccion.CantPotencialApostadores" class="control-label"></label>
+                <input asp-for="seleccion.CantPotencialApostadores" class="form-control" />
+                <span asp-validation-for="seleccion.CantPotencialApostadores" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="seleccion.Pais" class="control-label"></label>
+                <select class="form-control" name="IdPaisSeleccionado" id="paises">
+                    @if (Model.paises != null)
+                    {@foreach (var pais in Model.paises)
+                        {
+                            <option value="@pais.Id">@pais.Nombre</option>
+                        }}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="seleccion.Grupo.Nombre" class="control-label"></label>
+                <select class="form-control" name="IdGrupoSeleccionado" id="grupos">
+                    @if (Model.grupos != null)
+                    {@foreach (var grupo in Model.grupos)
+                        {
+                            <option value="@grupo.Id">@grupo.Nombre</option>
+                        }}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('GrupoId').hidden = true;
+        document.getElementById('Id').hidden = true;
+        document.getElementById('PaisId').hidden = true;
+        document.getElementById('grupos').value = document.getElementById('GrupoId').value;
+        document.getElementById('paises').value = document.getElementById('PaisId').value;
+
+
+    </script>
+
+}

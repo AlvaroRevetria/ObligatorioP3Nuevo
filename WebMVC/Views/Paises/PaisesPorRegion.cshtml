@@ -1,0 +1,71 @@
+﻿@model IEnumerable<LogicaNegocio.Dominio.Pais>
+
+@{
+    ViewData["Title"] = "Paises Por Region";
+}
+
+<h1>Paises Por Region</h1>
+
+<p>
+    <a asp-action="Create">Crear nuevo</a>
+    </p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pbi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Poblacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bandera)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegionId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pbi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Poblacion)
+            </td>
+            <td>
+                <image src="/Banderas/@item.Bandera" height="50px"></image>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegionId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "PaisesPorCodigoAlfa", new { codigo = item.Codigo })|
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

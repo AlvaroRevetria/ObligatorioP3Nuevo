@@ -1,0 +1,53 @@
+﻿@model WebMVC.Models.UsuarioDTOViewModel;
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+<span class="text-danger">@ViewBag.Error</span>
+<h4>Login</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="usuario.Email" class="control-label"></label>
+                <input asp-for="usuario.Email" class="form-control" />
+                <span asp-validation-for="usuario.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="usuario.Password" class="control-label"></label>
+                <input asp-for="usuario.Password" class="form-control" />
+                <span asp-validation-for="usuario.Password" class="text-danger"></span>
+            </div>
+            <div class ="form-group">
+                <select class="form-control" name="IdRolSeleccionado" id="roles">
+                    @if (Model.UsuarioRol != null)
+                    {@foreach (var rol in Model.UsuarioRol)
+                        {
+                            <option value="@rol.Id">@rol.Nombre</option>
+                        }}
+
+                </select>
+            </div>
+    <div class="form-group">
+        <input type="submit" value="Login" class="btn btn-primary" />
+    </div>
+    </form>
+    <form action="/Usuarios/Create" method="get">
+        <button class="btn btn-primary" type="submit">Crear</button>
+    </form>
+
+</div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

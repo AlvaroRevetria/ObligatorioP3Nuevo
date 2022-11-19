@@ -1,0 +1,70 @@
+﻿@model WebMVC.Models.PaisViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Pais</h4>
+<span>@ViewBag.Error</span>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Pais.Nombre" class="control-label"></label>
+                <input asp-for="Pais.Nombre" class="form-control" />
+                <span asp-validation-for="Pais.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pais.Codigo" class="control-label"></label>
+                <input asp-for="Pais.Codigo" class="form-control" />
+                <span asp-validation-for="Pais.Codigo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pais.Pbi" class="control-label"></label>
+                <input asp-for="Pais.Pbi" class="form-control" />
+                <span asp-validation-for="Pais.Pbi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pais.Poblacion" class="control-label"></label>
+                <input asp-for="Pais.Poblacion" class="form-control" />
+                <span asp-validation-for="Pais.Poblacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pais.Bandera" class="control-label"></label>
+                <input asp-for="Pais.Bandera" class="form-control" />
+                <span asp-validation-for="Pais.Bandera" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bandera" class="control-label"></label>
+                <input asp-for="Bandera" class="form-control" />
+                <span asp-validation-for="Bandera" class="text-danger"></span>
+            </div>
+
+            <image src="/Banderas/@Model.Pais.Bandera" height="50px"></image>
+
+            <div class="form-group">
+        <label asp-for="Pais.RegionId" class="control-label"></label>
+        <input asp-for="Pais.RegionId" class="form-control" />
+        <span asp-validation-for="Pais.RegionId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+            
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
