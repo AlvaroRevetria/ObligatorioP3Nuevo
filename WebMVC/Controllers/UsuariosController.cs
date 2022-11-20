@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,6 @@ namespace WebMVC.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioDTOViewModel vm)
         {
-            bool encontrado = false;
             HttpResponseMessage respuestaUsuario = Message(UrlUsuarios);
             List<DTORol> rolesUsuario = new List<DTORol>();
             List<DTOUsuario> usuarios = new List<DTOUsuario>();
@@ -99,7 +98,23 @@ namespace WebMVC.Controllers
                 return View(vm);
             }
 
+            return RedirectToAction(nameof(Index), "SeleccionesApi");
         }
+                ViewBag.Error = "Rol no asignado a su usuario";
+                HttpResponseMessage respuestaRoles = Message(UrlRoles);
+                List<DTORol> roles = new List<DTORol>();
+                if (respuestaRoles.IsSuccessStatusCode)
+                {
+                    string txt = ObtenerBody(respuestaRoles);
+                    roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
+                }
+
+                vm.UsuarioRol = roles;
+                return View(vm);
+            } else
+            {
+                return RedirectToAction(nameof(Index), "SeleccionesApi");
+            }
 
         // GET: AutoresWebapiController/Create
         public ActionResult Create()
