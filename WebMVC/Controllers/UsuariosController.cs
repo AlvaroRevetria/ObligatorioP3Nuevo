@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,6 @@ namespace WebMVC.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioDTOViewModel vm)
         {
-            bool encontrado = false;
             HttpResponseMessage respuestaUsuario = Message(UrlUsuarios);
             List<DTORol> rolesUsuario = new List<DTORol>();
             List<DTOUsuario> usuarios = new List<DTOUsuario>();
@@ -73,13 +72,15 @@ namespace WebMVC.Controllers
 
                     foreach (DTORol rol in rolesUsuario)
                     {
+
                         if (rol.Id == vm.IdRolSeleccionado)
                         {
                             encontrado = true;
                             HttpContext.Session.SetString("rol", rol.Nombre);
                         }
 
-                    }                
+                    }
+                
                
             }
             if (!encontrado)
@@ -97,6 +98,7 @@ namespace WebMVC.Controllers
                 return View(vm);
             }
 
+            return RedirectToAction(nameof(Index), "SeleccionesApi");
         }
 
         // GET: AutoresWebapiController/Create
