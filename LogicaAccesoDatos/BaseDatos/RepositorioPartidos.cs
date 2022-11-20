@@ -80,22 +80,24 @@ namespace LogicaAccesoDatos.BaseDatos
                         }
                     }
                 }
-                
+
+                nuevo.Seleccion1 = seleccion1;
+                nuevo.Seleccion2 = seleccion2;
 
                 Contexto.Partidos.Add(nuevo);
                 Contexto.SaveChanges();
             }
-            catch (PartidoException)
+            catch (PartidoException e)
             {
-                throw;
+                throw e;
             }
-            catch (HoraException)
+            catch (HoraException e)
             {
-                throw;
+                throw e;
             }
             catch (Exception e)
             {
-                throw new Exception("No se pudo dar de alta el partido", e);
+                throw new Exception("No se pudo dar de alta el partido || " + e.Message, e);
             }
         }
 
@@ -106,7 +108,9 @@ namespace LogicaAccesoDatos.BaseDatos
                 return Contexto.Partidos
                     .Include(p => p.Hora)
                     .Include(p => p.Seleccion1)
+                    .ThenInclude(s => s.Grupo)
                     .Include(p => p.Seleccion2)
+                    .ThenInclude(s => s.Grupo)
                     .ToList();
             }
             catch (Exception e)
@@ -153,6 +157,9 @@ namespace LogicaAccesoDatos.BaseDatos
         {
             try
             {
+                Partido partidoAModificar = FindById(partido.Id);
+                if(partido == null) throw new PartidoException("No existe el partido que desea actualizar");
+                if(partidoAModificar.Estado == "FINALIZADO") throw new PartidoException("El partido está finalizado, no se puede modificar.");
                 partido.Validar();
                 Seleccion seleccion1 = Contexto.Selecciones.Find(partido.Seleccion1.Id);
                 Seleccion seleccion2 = Contexto.Selecciones.Find(partido.Seleccion2.Id);
@@ -204,5 +211,82 @@ namespace LogicaAccesoDatos.BaseDatos
             }
         }
 
+        public IEnumerable<Partido> BuscarPorGurpo(string nombreGrupo)
+        {
+            List<Partido> partidosPorGrupo = new List<Partido>();
+            IEnumerable<Partido> partidos = FindAll();
+            foreach (Partido p in partidos)
+            {
+                if (p.Seleccion1.Grupo.Nombre == nombreGrupo || p.Seleccion2.Grupo.Nombre == nombreGrupo)
+                {
+                    if(!partidosPorGrupo.Contains(p))
+                    {
+                        partidosPorGrupo.Add(p);
+                    }
+                }
+            }
+
+            return partidosPorGrupo;
+        }
+
+        public IEnumerable<Partido> BuscarPorSeleccionOPais(string nombre)
+        {
+            IEnumerable<Partido> partidos = Contexto.Partidos
+                .Where(p =>
+                p.Seleccion1.Nombre.ToUpper() == nombre.ToUpper() ||
+                p.Seleccion2.Nombre.ToUpper() == nombre.ToUpper() ||
+                p.Seleccion1.Pais.Nombre.ToUpper() == nombre.ToUpper() ||
+                p.Seleccion2.Pais.Nombre.ToUpper() == nombre.ToUpper())
+                .Include(p => p.Seleccion1)
+                .ThenInclude(s => s.Pais)
+                .Include(p => p.Seleccion1)
+                .ThenInclude(s => s.Grupo)
+                .Include(p => p.Seleccion2)
+                .ThenInclude(s => s.Pais)
+                .Include(p => p.Seleccion2)
+                .ThenInclude(s => s.Grupo)
+                .Include(p => p.Hora)
+                .ToList();
+
+            return partidos;
+        }
+
+        public IEnumerable<Partido> BuscarPorCodigoIsoPais(string codigoPais)
+        {
+            IEnumerable<Partido> partidos = Contexto.Partidos
+                 .Where(p =>
+                 p.Seleccion1.Pais.Codigo.ToUpper() == codigoPais.ToUpper() ||
+                 p.Seleccion2.Pais.Codigo.ToUpper() == codigoPais.ToUpper())
+                 .Include(p => p.Seleccion1)
+                 .ThenInclude(s => s.Pais)
+                 .Include(p => p.Seleccion1)
+                 .ThenInclude(s => s.Grupo)
+                 .Include(p => p.Seleccion2)
+                 .ThenInclude(s => s.Pais)
+                 .Include(p => p.Seleccion2)
+                 .ThenInclude(s => s.Grupo)
+                 .Include(p => p.Hora)
+                 .ToList();
+
+            return partidos;
+        }
+
+        public IEnumerable<Partido> BuscarPorFechas(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            IEnumerable<Partido> partidos = Contexto.Partidos
+                 .Where(p => p.Fecha >= fechaDesde && p.Fecha <= fechaHasta)
+                 .Include(p => p.Seleccion1)
+                 .ThenInclude(s => s.Pais)
+                 .Include(p => p.Seleccion1)
+                 .ThenInclude(s => s.Grupo)
+                 .Include(p => p.Seleccion2)
+                 .ThenInclude(s => s.Pais)
+                 .Include(p => p.Seleccion2)
+                 .ThenInclude(s => s.Grupo)
+                 .Include(p => p.Hora)
+                 .ToList();
+
+            return partidos;
+        }
     }
 }

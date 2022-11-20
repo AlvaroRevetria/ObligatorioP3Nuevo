@@ -42,6 +42,7 @@ namespace WebMVC.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioDTOViewModel vm)
         {
+            bool encontrado = false;
             HttpResponseMessage respuestaUsuario = Message(UrlUsuarios);
             List<DTORol> rolesUsuario = new List<DTORol>();
             List<DTOUsuario> usuarios = new List<DTOUsuario>();
@@ -66,34 +67,38 @@ namespace WebMVC.Controllers
                             rolesUsuario.Add(rol);
                         }
                     }
-                }
-                bool encontrado = false;
-                foreach (DTORol rol in rolesUsuario)
-                {
 
-                    if(rol.Id == vm.IdRolSeleccionado) {
-                        encontrado = true;
-                        HttpContext.Session.SetString("rol", rol.Nombre);
-                    }
-
-                }
-                if (!encontrado)
-                {
-                    ViewBag.Error="Rol no asignado a su usuario";
-                    HttpResponseMessage respuestaRoles = Message(UrlRoles);
-                    List<DTORol> roles = new List<DTORol>();
-                    if (respuestaRoles.IsSuccessStatusCode)
+                    foreach (DTORol rol in rolesUsuario)
                     {
-                        string txt = ObtenerBody(respuestaRoles);
-                        roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
+
+                        if (rol.Id == vm.IdRolSeleccionado)
+                        {
+                            encontrado = true;
+                            HttpContext.Session.SetString("rol", rol.Nombre);
+                        }
+
                     }
-                   
-                    vm.UsuarioRol = roles;
-                    return View(vm);
                 }
             }
 
-            return RedirectToAction(nameof(Index), "SeleccionesApi");
+            if (!encontrado)
+            {
+                ViewBag.Error = "Rol no asignado a su usuario";
+                HttpResponseMessage respuestaRoles = Message(UrlRoles);
+                List<DTORol> roles = new List<DTORol>();
+                if (respuestaRoles.IsSuccessStatusCode)
+                {
+                    string txt = ObtenerBody(respuestaRoles);
+                    roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
+                }
+
+                vm.UsuarioRol = roles;
+                return View(vm);
+            } else
+            {
+                return RedirectToAction(nameof(Index), "SeleccionesApi");
+            }
+
         }
 
         // GET: AutoresWebapiController/Create

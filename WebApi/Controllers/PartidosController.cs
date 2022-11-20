@@ -65,13 +65,13 @@ namespace WebApi.Controllers
                 RepoPartidos.Add(partido);
                 return Created("api/partidos/" + partido.Id, partido);
             }
-            catch (PartidoException)
+            catch (PartidoException e)
             {
-                throw;
+                return BadRequest(e.Message);
             }
-            catch (HoraException)
+            catch (HoraException e)
             {
-                throw;
+                return BadRequest(e.Message);
             }
             catch (Exception ex)
             {
@@ -104,6 +104,81 @@ namespace WebApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        // GET api/<PartidosController>/gupo/A
+        [HttpGet("grupo/{nombreGrupo}")]
+        public IActionResult GetBuscarPorGrupo(string nombreGrupo)
+        {
+            try
+            {
+                IEnumerable<Partido> partidos = RepoPartidos.BuscarPorGurpo(nombreGrupo);
+                return Ok(partidos);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+            
+        }
+
+        // GET api/<PartidosController>/seleccion/nombre
+        [HttpGet("seleccion/{nombre}")]
+        public IActionResult GetBuscarPorSeleccion(string nombre)
+        {
+            try
+            {
+                IEnumerable<Partido> partidos = RepoPartidos.BuscarPorSeleccionOPais(nombre);
+                return Ok(partidos);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+
+        }
+
+        // GET api/<PartidosController>/seleccion/nombre
+        [HttpGet("pais/{codigo}")]
+        public IActionResult GetBuscarPorCodigoIsoPais(string codigo)
+        {
+            try
+            {
+                IEnumerable<Partido> partidos = RepoPartidos.BuscarPorCodigoIsoPais(codigo);
+                return Ok(partidos);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+
+        }
+
+        // GET api/<PartidosController>/seleccion/nombre
+        [HttpGet("desde/{fechaDeste}/hasta/{fechaHasta}")]
+        public IActionResult GetBuscarPorFechas(string fechaDeste, string fechaHasta)
+        {
+            try
+            {
+                DateTime fdesde = new DateTime();
+                bool ok1 = DateTime.TryParse(fechaDeste, out fdesde);
+
+                DateTime fhasta = new DateTime();
+                bool ok2 = DateTime.TryParse(fechaHasta, out fhasta);
+
+                if (!ok1 || !ok2) return BadRequest("La fecha no es válida");
+                IEnumerable<Partido> partidos = RepoPartidos.BuscarPorFechas(fdesde, fhasta);
+                return Ok(partidos);
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e.Message);
+            }
+
         }
     }
 }
