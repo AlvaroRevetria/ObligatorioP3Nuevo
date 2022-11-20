@@ -35,7 +35,7 @@ namespace WebMVC.Controllers
                 roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
             }
             UsuarioDTOViewModel vm = new UsuarioDTOViewModel();
-            vm.UsuarioRol = roles;
+            vm.Roles = roles;
             return View(vm);
         }
 
@@ -51,14 +51,16 @@ namespace WebMVC.Controllers
                 string txt = ObtenerBody(respuestaUsuario);
                 usuarios = JsonConvert.DeserializeObject<List<DTOUsuario>>(txt);
             }
-            foreach( DTOUsuario u in usuarios) 
+            bool encontrado = false;
+
+            foreach ( DTOUsuario u in usuarios) 
             {
-                
+
                 if (vm.usuario.Email == u.Email && vm.usuario.Password == u.Password)
                 {
                     foreach (DTOUsuarioRol ur in u.UsuarioRol)
                     {
-                       
+
                         HttpResponseMessage respuestaRol = Message(UrlRoles + "/" + ur.rolId);
                         if (respuestaRol.IsSuccessStatusCode)
                         {
@@ -67,6 +69,7 @@ namespace WebMVC.Controllers
                             rolesUsuario.Add(rol);
                         }
                     }
+                }
 
                     foreach (DTORol rol in rolesUsuario)
                     {
@@ -78,9 +81,9 @@ namespace WebMVC.Controllers
                         }
 
                     }
-                }
+                
+               
             }
-
             if (!encontrado)
             {
                 ViewBag.Error = "Rol no asignado a su usuario";
@@ -92,11 +95,8 @@ namespace WebMVC.Controllers
                     roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
                 }
 
-                vm.UsuarioRol = roles;
+                vm.Roles = roles;
                 return View(vm);
-            } else
-            {
-                return RedirectToAction(nameof(Index), "SeleccionesApi");
             }
 
         }
@@ -114,7 +114,8 @@ namespace WebMVC.Controllers
         {
             try
             {
-               
+                   
+
                 HttpClient cliente = new HttpClient();
 
                
