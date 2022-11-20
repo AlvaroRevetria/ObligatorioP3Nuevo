@@ -82,7 +82,8 @@ namespace WebApi.Controllers
                     seleccionesResult.Add(dtoSeleccion);
                 }
                 if (seleccionesResult.Count() == 0) return NotFound();
-                return Ok(seleccionesResult);
+               
+                return Ok(seleccionesResult.OrderByDescending(s => s.puntos));
             }
             catch (Exception ex)
             {
