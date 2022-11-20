@@ -35,7 +35,7 @@ namespace WebMVC.Controllers
                 roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
             }
             UsuarioDTOViewModel vm = new UsuarioDTOViewModel();
-            vm.UsuarioRol = roles;
+            vm.Roles = roles;
             return View(vm);
         }
 
@@ -50,14 +50,16 @@ namespace WebMVC.Controllers
                 string txt = ObtenerBody(respuestaUsuario);
                 usuarios = JsonConvert.DeserializeObject<List<DTOUsuario>>(txt);
             }
-            foreach( DTOUsuario u in usuarios) 
+            bool encontrado = false;
+
+            foreach ( DTOUsuario u in usuarios) 
             {
-                
+
                 if (vm.usuario.Email == u.Email && vm.usuario.Password == u.Password)
                 {
                     foreach (DTOUsuarioRol ur in u.UsuarioRol)
                     {
-                       
+
                         HttpResponseMessage respuestaRol = Message(UrlRoles + "/" + ur.rolId);
                         if (respuestaRol.IsSuccessStatusCode)
                         {
@@ -67,30 +69,33 @@ namespace WebMVC.Controllers
                         }
                     }
                 }
-                bool encontrado = false;
-                foreach (DTORol rol in rolesUsuario)
-                {
 
-                    if(rol.Id == vm.IdRolSeleccionado) {
-                        encontrado = true;
-                        HttpContext.Session.SetString("rol", rol.Nombre);
-                    }
-
-                }
-                if (!encontrado)
-                {
-                    ViewBag.Error="Rol no asignado a su usuario";
-                    HttpResponseMessage respuestaRoles = Message(UrlRoles);
-                    List<DTORol> roles = new List<DTORol>();
-                    if (respuestaRoles.IsSuccessStatusCode)
+                    foreach (DTORol rol in rolesUsuario)
                     {
-                        string txt = ObtenerBody(respuestaRoles);
-                        roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
+
+                        if (rol.Id == vm.IdRolSeleccionado)
+                        {
+                            encontrado = true;
+                            HttpContext.Session.SetString("rol", rol.Nombre);
+                        }
+
                     }
-                   
-                    vm.UsuarioRol = roles;
-                    return View(vm);
+                
+               
+            }
+            if (!encontrado)
+            {
+                ViewBag.Error = "Rol no asignado a su usuario";
+                HttpResponseMessage respuestaRoles = Message(UrlRoles);
+                List<DTORol> roles = new List<DTORol>();
+                if (respuestaRoles.IsSuccessStatusCode)
+                {
+                    string txt = ObtenerBody(respuestaRoles);
+                    roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
                 }
+
+                vm.Roles = roles;
+                return View(vm);
             }
 
             return RedirectToAction(nameof(Index), "SeleccionesApi");
@@ -109,7 +114,8 @@ namespace WebMVC.Controllers
         {
             try
             {
-               
+                   
+
                 HttpClient cliente = new HttpClient();
 
                
