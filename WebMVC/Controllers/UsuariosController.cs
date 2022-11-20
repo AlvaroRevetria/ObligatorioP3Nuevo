@@ -21,7 +21,7 @@ namespace WebMVC.Controllers
         {
             UrlRoles = configuration.GetValue<string>("UrlRoles");
             UrlUsuarios = configuration.GetValue<string>("UrlUsuarios");
-           
+
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace WebMVC.Controllers
                 roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
             }
             UsuarioDTOViewModel vm = new UsuarioDTOViewModel();
-            vm.Roles = roles;
+            vm.UsuarioRol = roles;
             return View(vm);
         }
 
@@ -52,7 +52,7 @@ namespace WebMVC.Controllers
             }
             bool encontrado = false;
 
-            foreach ( DTOUsuario u in usuarios) 
+            foreach (DTOUsuario u in usuarios)
             {
 
                 if (vm.usuario.Email == u.Email && vm.usuario.Password == u.Password)
@@ -70,18 +70,18 @@ namespace WebMVC.Controllers
                     }
                 }
 
-                    foreach (DTORol rol in rolesUsuario)
+                foreach (DTORol rol in rolesUsuario)
+                {
+
+                    if (rol.Id == vm.IdRolSeleccionado)
                     {
-
-                        if (rol.Id == vm.IdRolSeleccionado)
-                        {
-                            encontrado = true;
-                            HttpContext.Session.SetString("rol", rol.Nombre);
-                        }
-
+                        encontrado = true;
+                        HttpContext.Session.SetString("rol", rol.Nombre);
                     }
-                
-               
+
+                }
+
+
             }
             if (!encontrado)
             {
@@ -94,27 +94,12 @@ namespace WebMVC.Controllers
                     roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
                 }
 
-                vm.Roles = roles;
+                vm.UsuarioRol = roles;
                 return View(vm);
             }
 
             return RedirectToAction(nameof(Index), "SeleccionesApi");
         }
-                ViewBag.Error = "Rol no asignado a su usuario";
-                HttpResponseMessage respuestaRoles = Message(UrlRoles);
-                List<DTORol> roles = new List<DTORol>();
-                if (respuestaRoles.IsSuccessStatusCode)
-                {
-                    string txt = ObtenerBody(respuestaRoles);
-                    roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
-                }
-
-                vm.UsuarioRol = roles;
-                return View(vm);
-            } else
-            {
-                return RedirectToAction(nameof(Index), "SeleccionesApi");
-            }
 
         // GET: AutoresWebapiController/Create
         public ActionResult Create()
@@ -129,11 +114,11 @@ namespace WebMVC.Controllers
         {
             try
             {
-                   
+
 
                 HttpClient cliente = new HttpClient();
 
-               
+
                 Task<HttpResponseMessage> tarea1 = cliente.PostAsJsonAsync(UrlUsuarios, vm.usuario);
                 tarea1.Wait();
 
@@ -146,7 +131,7 @@ namespace WebMVC.Controllers
                 else
                 {
                     ViewBag.Error = "No se pudo dar de alte el usuario. Error: " + ObtenerBody(respuesta);
-                    
+
                     return View();
                 }
             }
