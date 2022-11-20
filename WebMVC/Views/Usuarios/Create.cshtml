@@ -1,5 +1,4 @@
-﻿@model DTOS.DTOUsuario
-
+﻿@model UsuarioDTOViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -13,14 +12,14 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="usuario.Email" class="control-label"></label>
+                <input asp-for="usuario.Email" class="form-control" />
+                <span asp-validation-for="usuario.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <label asp-for="usuario.Password" class="control-label"></label>
+                <input asp-for="usuario.Password" class="form-control" />
+                <span asp-validation-for="usuario.Password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
