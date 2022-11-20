@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Excepciones", "Excepciones\Excepciones.csproj", "{837971BF-DFFC-4181-ADB4-BCA8A6DC1DE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOS1", "DTOS\DTOS1.csproj", "{CE8BF16E-6ECD-44FB-B99A-ECBC6959134A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTOS", "DTOS\DTOS.csproj", "{CE8BF16E-6ECD-44FB-B99A-ECBC6959134A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

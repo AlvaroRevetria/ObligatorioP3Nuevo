@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DTOS\DTOS1.csproj" />
+    <ProjectReference Include="..\DTOS\DTOS.csproj" />
     <ProjectReference Include="..\Excepciones\Excepciones.csproj" />
     <ProjectReference Include="..\LogicaAccesoDatos\LogicaAccesoDatos.csproj" />
     <ProjectReference Include="..\LogicaNegocio\LogicaNegocio.csproj" />

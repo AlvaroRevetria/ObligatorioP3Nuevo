@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DTOS\DTOS1.csproj" />
+    <ProjectReference Include="..\DTOS\DTOS.csproj" />
     <ProjectReference Include="..\LogicaAccesoDatos\LogicaAccesoDatos.csproj" />
     <ProjectReference Include="..\LogicaAplicacion\LogicaAplicacion.csproj" />
     <ProjectReference Include="..\LogicaNegocio\LogicaNegocio.csproj" />
@@ -24,5 +24,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\Banderas\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
