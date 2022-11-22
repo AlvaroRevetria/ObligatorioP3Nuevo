@@ -113,11 +113,8 @@ namespace WebMVC.Controllers
         public ActionResult Create(UsuarioDTOViewModel vm)
         {
             try
-            {
-                   
-
+            {                
                 HttpClient cliente = new HttpClient();
-
                
                 Task<HttpResponseMessage> tarea1 = cliente.PostAsJsonAsync(UrlUsuarios, vm.usuario);
                 tarea1.Wait();
