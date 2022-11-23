@@ -169,5 +169,16 @@ namespace LogicaAccesoDatos.BaseDatos
             }
             return golesEnContra;
         }
+
+        public IEnumerable<Seleccion> SeleccionesPorGrupo(string nombreGrupo)
+        {
+            IEnumerable<Seleccion> selecciones = Contexto.Selecciones.Where(s => s.Grupo.Nombre == nombreGrupo)
+               .Include(s => s.Pais)
+               .Include(s => s.SeleccionPartido)
+               .Include(s => s.Grupo)
+               .ToList();
+
+            return selecciones;
+        }
     }
 }
