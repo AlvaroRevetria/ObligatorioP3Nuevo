@@ -65,6 +65,7 @@ namespace WebApi.Controllers
             {
 
                 IEnumerable<Seleccion> seleccionesGrupo = RepoSelecciones.SeleccionesPorGrupo(nombre);
+                if (seleccionesGrupo.Count() == 0) return NotFound("No existen resultados para el grupo: " + nombre);
 
                 List<DTOSeleccion> seleccionesResult = new List<DTOSeleccion>();
 

@@ -1,12 +1,10 @@
-﻿using DTOS;
-using LogicaAplicacion.InterfacesCasosUso.ICasosUsoGrupos;
-using LogicaAplicacion.InterfacesCasosUso.ICasosUsoPais;
-using LogicaNegocio.Dominio;
+﻿using LogicaNegocio.Dominio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebMVC.Filtros;
@@ -81,25 +79,20 @@ namespace WebMVC.Controllers
         // GET: SeleccionesApiController/Create
         public ActionResult Create()
         {
-            HttpResponseMessage respuestaGrupo= Message(UrlGrupos);
-            List<Grupo> grupos = new List<Grupo>();
-            if (respuestaGrupo.IsSuccessStatusCode)
-            {
-                string txt = ObtenerBody(respuestaGrupo);
-                grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
-            }
-            HttpResponseMessage respuestaPais = Message(UrlPaises);
-            List<Pais>paises = new List<Pais>();
-            if (respuestaPais.IsSuccessStatusCode)
-            {
-                string txt = ObtenerBody(respuestaPais);
-                paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
-            }
-
-
             SeleccionViewModel vm = new SeleccionViewModel();
-            vm.paises = paises;
-            vm.grupos = grupos;
+
+            List<Grupo> grupos = ObtenerGrupos();
+            if(grupos.Count > 0)
+            {
+                vm.grupos = grupos;
+            }
+
+            List<Pais> paises = ObtenerPaises();
+            if(paises.Count > 0)
+            {
+                vm.paises = paises;
+            }                    
+            
             return View(vm);
         }
 
@@ -125,47 +118,37 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
-                    HttpResponseMessage respuestaGrupo = Message(UrlGrupos);
-                    List<Grupo> grupos = new List<Grupo>();
-                    if (respuestaGrupo.IsSuccessStatusCode)
+                    List<Grupo> grupos = ObtenerGrupos();
+                    if (grupos.Count > 0)
                     {
-                        string txt = ObtenerBody(respuestaGrupo);
-                        grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
+                        vm.grupos = grupos;
                     }
-                    HttpResponseMessage respuestaPais = Message(UrlPaises);
-                    List<Pais> paises = new List<Pais>();
-                    if (respuestaPais.IsSuccessStatusCode)
+
+                    List<Pais> paises = ObtenerPaises();
+                    if (paises.Count > 0)
                     {
-                        string txt = ObtenerBody(respuestaPais);
-                        paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
+                        vm.paises = paises;
                     }
 
                     ViewBag.Error = "No se pudo dar de alta la seleccion. Error: " + ObtenerBody(respuesta);
-                    vm.paises = paises;
-                    vm.grupos = grupos;
                     return View(vm);
                 }
             }
             catch (Exception e)
             {
-                HttpResponseMessage respuestaGrupo = Message(UrlGrupos);
-                List<Grupo> grupos = new List<Grupo>();
-                if (respuestaGrupo.IsSuccessStatusCode)
+                List<Grupo> grupos = ObtenerGrupos();
+                if (grupos.Count > 0)
                 {
-                    string txt = ObtenerBody(respuestaGrupo);
-                    grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
+                    vm.grupos = grupos;
                 }
-                HttpResponseMessage respuestaPais = Message(UrlPaises);
-                List<Pais> paises = new List<Pais>();
-                if (respuestaPais.IsSuccessStatusCode)
+
+                List<Pais> paises = ObtenerPaises();
+                if (paises.Count > 0)
                 {
-                    string txt = ObtenerBody(respuestaPais);
-                    paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
+                    vm.paises = paises;
                 }
 
                 ViewBag.Error = "Ocurrió un error: " + e.Message;
-                vm.paises = paises;
-                vm.grupos = grupos;
                 return View(vm);
             }
         }
@@ -173,28 +156,21 @@ namespace WebMVC.Controllers
         // GET: SeleccionesApiController/Edit/5
         public ActionResult Edit(int id)
         {
-            HttpResponseMessage respuestaGrupo = Message(UrlGrupos);
-            List<Grupo> grupos = new List<Grupo>();
-            if (respuestaGrupo.IsSuccessStatusCode)
+            SeleccionViewModel vm = new SeleccionViewModel();
+            List<Grupo> grupos = ObtenerGrupos();
+            if (grupos.Count > 0)
             {
-                string txt = ObtenerBody(respuestaGrupo);
-                grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
-            }
-            HttpResponseMessage respuestaPais = Message(UrlPaises);
-            List<Pais> paises = new List<Pais>();
-            if (respuestaPais.IsSuccessStatusCode)
-            {
-                string txt = ObtenerBody(respuestaPais);
-                paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
+                vm.grupos = grupos;
             }
 
-           
-            
-            Seleccion s = BuscarPorId(id);
-                SeleccionViewModel vm = new SeleccionViewModel();
-                vm.seleccion = s;
+            List<Pais> paises = ObtenerPaises();
+            if (paises.Count > 0)
+            {
                 vm.paises = paises;
-                vm.grupos = grupos;
+            }
+
+            Seleccion s = BuscarPorId(id);
+            vm.seleccion = s;
 
             return View(vm);
         }
@@ -221,48 +197,38 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
-                    HttpResponseMessage respuestaGrupo = Message(UrlGrupos);
-                    List<Grupo> grupos = new List<Grupo>();
-                    if (respuestaGrupo.IsSuccessStatusCode)
+                    List<Grupo> grupos = ObtenerGrupos();
+                    if (grupos.Count > 0)
                     {
-                        string txt = ObtenerBody(respuestaGrupo);
-                        grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
+                        vm.grupos = grupos;
                     }
-                    HttpResponseMessage respuestaPais = Message(UrlPaises);
-                    List<Pais> paises = new List<Pais>();
-                    if (respuestaPais.IsSuccessStatusCode)
+
+                    List<Pais> paises = ObtenerPaises();
+                    if (paises.Count > 0)
                     {
-                        string txt = ObtenerBody(respuestaPais);
-                        paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
+                        vm.paises = paises;
                     }
 
 
                     ViewBag.Error = "No se pudo actualizar la seleccion. Error: " + ObtenerBody(respuesta);
-                    vm.paises = paises;
-                    vm.grupos = grupos;
                     return View(vm);
                 }
             }
             catch (Exception e)
             {
-                HttpResponseMessage respuestaGrupo = Message(UrlGrupos);
-                List<Grupo> grupos = new List<Grupo>();
-                if (respuestaGrupo.IsSuccessStatusCode)
+                List<Grupo> grupos = ObtenerGrupos();
+                if (grupos.Count > 0)
                 {
-                    string txt = ObtenerBody(respuestaGrupo);
-                    grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
+                    vm.grupos = grupos;
                 }
-                HttpResponseMessage respuestaPais = Message(UrlPaises);
-                List<Pais> paises = new List<Pais>();
-                if (respuestaPais.IsSuccessStatusCode)
+
+                List<Pais> paises = ObtenerPaises();
+                if (paises.Count > 0)
                 {
-                    string txt = ObtenerBody(respuestaPais);
-                    paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
+                    vm.paises = paises;
                 }
 
                 ViewBag.Error = "Ocurrió un error: " + e.Message;
-                vm.paises = paises;
-                vm.grupos = grupos;
                 return View(vm);
             }
         }
@@ -357,6 +323,15 @@ namespace WebMVC.Controllers
             {
                 HttpClient cliente = new HttpClient();
 
+                List<Grupo> grupos = ObtenerGrupos();
+                Grupo grupoIngresado = grupos.Where(g => g.Nombre == nombreGrupo).FirstOrDefault();
+
+                if (grupoIngresado == null)
+                {
+                    ViewBag.Error = "El grupo " + nombreGrupo + " no existe";
+                    return View(seleccionesPorGrupo);
+                }
+
                 Task<HttpResponseMessage> tarea1 = cliente.GetAsync(UrlSelecciones + "/grupo/" + nombreGrupo);
                 tarea1.Wait();
 
@@ -367,6 +342,10 @@ namespace WebMVC.Controllers
                 if (respuesta.IsSuccessStatusCode)
                 {
                     seleccionesPorGrupo = JsonConvert.DeserializeObject<List<SeleccionDTOViewModel>>(txt);
+                    if (seleccionesPorGrupo.Count == 0)
+                    {
+                        ViewBag.Message = "No se han encontrado resultados";
+                    }
                     return View(seleccionesPorGrupo);
                 }
                 else
@@ -403,5 +382,29 @@ namespace WebMVC.Controllers
                 return respuesta;
             }
 
+        private List<Grupo> ObtenerGrupos()
+        {
+            HttpResponseMessage respuestaGrupo = Message(UrlGrupos);
+            List<Grupo> grupos = new List<Grupo>();
+            if (respuestaGrupo.IsSuccessStatusCode)
+            {
+                string txt = ObtenerBody(respuestaGrupo);
+                grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
+            }
+
+            return grupos;
+        }
+
+        private List<Pais> ObtenerPaises()
+        {
+            HttpResponseMessage respuestaPais = Message(UrlPaises);
+            List<Pais> paises = new List<Pais>();
+            if (respuestaPais.IsSuccessStatusCode)
+            {
+                string txt = ObtenerBody(respuestaPais);
+                paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
+            }
+            return paises;
+        }
     }
 }

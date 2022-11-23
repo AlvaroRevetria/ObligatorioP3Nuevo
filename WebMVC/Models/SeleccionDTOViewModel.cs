@@ -17,7 +17,7 @@ namespace WebMVC.Models
         public int GolesAFavor { get; set; }
         [Display(Name = "GC")]
         public int GolesEnContra { get; set; }
-        [Display(Name = "GF")]
+        [Display(Name = "DF")]
         public int DifGoles { get; set; }
     }
 }
