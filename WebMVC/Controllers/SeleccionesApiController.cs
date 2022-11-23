@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using WebMVC.Filtros;
 using WebMVC.Models;
 
 namespace WebMVC.Controllers
@@ -347,6 +348,8 @@ namespace WebMVC.Controllers
 
                 return s;
             }
+
+        [Autorizacion("Apostador", "Admin")]
         public ActionResult BuscarPorGrupo(string nombreGrupo)
         {
             List<SeleccionDTOViewModel> seleccionesPorGrupo = new List<SeleccionDTOViewModel>();
