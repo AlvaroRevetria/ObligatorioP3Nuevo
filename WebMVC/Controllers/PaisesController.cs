@@ -1,12 +1,10 @@
 ﻿using LogicaAplicacion.InterfacesCasosUso.ICasosUsoPais;
 using LogicaAplicacion.InterfacesCasosUso.ICasosUsoRegion;
 using LogicaNegocio.Dominio;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebMVC.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;

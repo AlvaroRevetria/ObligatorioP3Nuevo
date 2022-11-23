@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using WebMVC.Models;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
-using DTOS;
-
 
 namespace WebMVC.Controllers
 {
@@ -28,11 +26,11 @@ namespace WebMVC.Controllers
         public ActionResult Login()
         {
             HttpResponseMessage respuestaRoles = Message(UrlRoles);
-            List<DTORol> roles = new List<DTORol>();
+            List<RolDTOViewModel> roles = new List<RolDTOViewModel>();
             if (respuestaRoles.IsSuccessStatusCode)
             {
                 string txt = ObtenerBody(respuestaRoles);
-                roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
+                roles = JsonConvert.DeserializeObject<List<RolDTOViewModel>>(txt);
             }
             UsuarioDTOViewModel vm = new UsuarioDTOViewModel();
             vm.Roles = roles;
@@ -43,34 +41,34 @@ namespace WebMVC.Controllers
         public ActionResult Login(UsuarioDTOViewModel vm)
         {
             HttpResponseMessage respuestaUsuario = Message(UrlUsuarios);
-            List<DTORol> rolesUsuario = new List<DTORol>();
-            List<DTOUsuario> usuarios = new List<DTOUsuario>();
+            List<RolDTOViewModel> rolesUsuario = new List<RolDTOViewModel>();
+            List<DTOUsuarioViewModel> usuarios = new List<DTOUsuarioViewModel>();
             if (respuestaUsuario.IsSuccessStatusCode)
             {
                 string txt = ObtenerBody(respuestaUsuario);
-                usuarios = JsonConvert.DeserializeObject<List<DTOUsuario>>(txt);
+                usuarios = JsonConvert.DeserializeObject<List<DTOUsuarioViewModel>>(txt);
             }
             bool encontrado = false;
 
-            foreach (DTOUsuario u in usuarios)
+            foreach (DTOUsuarioViewModel u in usuarios)
             {
 
                 if (vm.usuario.Email == u.Email && vm.usuario.Password == u.Password)
                 {
-                    foreach (DTOUsuarioRol ur in u.UsuarioRol)
+                    foreach (UsuarioRolDTOViewModel ur in u.UsuarioRol)
                     {
 
                         HttpResponseMessage respuestaRol = Message(UrlRoles + "/" + ur.rolId);
                         if (respuestaRol.IsSuccessStatusCode)
                         {
                             string txt = ObtenerBody(respuestaRol);
-                            DTORol rol = JsonConvert.DeserializeObject<DTORol>(txt);
+                            RolDTOViewModel rol = JsonConvert.DeserializeObject<RolDTOViewModel>(txt);
                             rolesUsuario.Add(rol);
                         }
                     }
                 }
 
-                foreach (DTORol rol in rolesUsuario)
+                foreach (RolDTOViewModel rol in rolesUsuario)
                 {
 
                     if (rol.Id == vm.IdRolSeleccionado)
@@ -87,11 +85,11 @@ namespace WebMVC.Controllers
             {
                 ViewBag.Error = "Rol no asignado a su usuario";
                 HttpResponseMessage respuestaRoles = Message(UrlRoles);
-                List<DTORol> roles = new List<DTORol>();
+                List<RolDTOViewModel> roles = new List<RolDTOViewModel>();
                 if (respuestaRoles.IsSuccessStatusCode)
                 {
                     string txt = ObtenerBody(respuestaRoles);
-                    roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
+                    roles = JsonConvert.DeserializeObject<List<RolDTOViewModel>>(txt);
                 }
 
                 vm.Roles = roles;
@@ -139,6 +137,13 @@ namespace WebMVC.Controllers
                 //loguear la excepción? inner exception?
                 return View(vm);
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            HttpContext.Session.Remove("rol");
+            return RedirectToAction("Login", "Usuarios");
         }
         private string ObtenerBody(HttpResponseMessage respuesta)
         {

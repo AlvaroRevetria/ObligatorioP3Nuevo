@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DTOS
+namespace WebMVC.Models
 {
-     public class DTORol
+    public class RolDTOViewModel
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
