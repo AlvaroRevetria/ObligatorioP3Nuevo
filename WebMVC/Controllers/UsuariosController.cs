@@ -35,7 +35,7 @@ namespace WebMVC.Controllers
                 roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
             }
             UsuarioDTOViewModel vm = new UsuarioDTOViewModel();
-            vm.UsuarioRol = roles;
+            vm.Roles = roles;
             return View(vm);
         }
 
@@ -94,7 +94,7 @@ namespace WebMVC.Controllers
                     roles = JsonConvert.DeserializeObject<List<DTORol>>(txt);
                 }
 
-                vm.UsuarioRol = roles;
+                vm.Roles = roles;
                 return View(vm);
             }
 
@@ -114,10 +114,7 @@ namespace WebMVC.Controllers
         {
             try
             {
-
-
                 HttpClient cliente = new HttpClient();
-
 
                 Task<HttpResponseMessage> tarea1 = cliente.PostAsJsonAsync(UrlUsuarios, vm.usuario);
                 tarea1.Wait();

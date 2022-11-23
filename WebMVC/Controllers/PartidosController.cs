@@ -30,7 +30,7 @@ namespace WebMVC.Controllers
 
                 if (respuestaPartido.IsSuccessStatusCode)
                 {
-                    partidos = ObtenerDtoPartidos(txt);
+                    partidos = ObtenerPartidos(txt);
 
 
                     if (partidos.Count == 0)
@@ -130,7 +130,7 @@ namespace WebMVC.Controllers
 
                 if (respuesta.IsSuccessStatusCode)
                 {
-                    partidosPorGrupo = ObtenerDtoPartidos(txt);
+                    partidosPorGrupo = ObtenerPartidos(txt);
 
                     if (partidosPorGrupo.Count == 0)
                     {
@@ -162,7 +162,7 @@ namespace WebMVC.Controllers
 
                 if (respuesta.IsSuccessStatusCode)
                 {
-                    partidosPorSeleccionOPais = ObtenerDtoPartidos(txt);
+                    partidosPorSeleccionOPais = ObtenerPartidos(txt);
 
                     if (partidosPorSeleccionOPais.Count == 0)
                     {
@@ -195,7 +195,7 @@ namespace WebMVC.Controllers
 
                 if (respuesta.IsSuccessStatusCode)
                 {
-                    partidosPorPais = ObtenerDtoPartidos(txt);
+                    partidosPorPais = ObtenerPartidos(txt);
 
                     if (partidosPorPais.Count == 0)
                     {
@@ -227,7 +227,7 @@ namespace WebMVC.Controllers
 
                 if (respuesta.IsSuccessStatusCode)
                 {
-                    partidosPorFechas = ObtenerDtoPartidos(txt);
+                    partidosPorFechas = ObtenerPartidos(txt);
 
                     if (partidosPorFechas.Count == 0)
                     {
@@ -249,7 +249,7 @@ namespace WebMVC.Controllers
             }
         }
 
-        private List<PartidoDTOViewModel> ObtenerDtoPartidos(string txt)
+        private List<PartidoDTOViewModel> ObtenerPartidos(string txt)
         {
             List<PartidoDTOViewModel> dtoPartidos = new List<PartidoDTOViewModel>();
             List<Partido> partidos = JsonConvert.DeserializeObject<List<Partido>>(txt);
