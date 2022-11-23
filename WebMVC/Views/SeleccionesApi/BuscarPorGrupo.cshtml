@@ -5,57 +5,63 @@
 }
 
 <h1>Listado por Grupo</h1>
+<span class="text-danger">@ViewBag.Error</span>
 <div>
     <a asp-action="Index">Volver</a>
 </div>
+<span class="text-warning">@ViewBag.Message</span>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bandera)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Puntos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GolesAFavor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GolesEnContra)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DifGoles)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                <image src="/Banderas/@item.Bandera" height="50px"></image>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Puntos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GolesAFavor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GolesEnContra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DifGoles)
-            </td>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bandera)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Puntos)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GolesAFavor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GolesEnContra)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DifGoles)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        <image src="/Banderas/@item.Bandera" height="50px"></image>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Puntos)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GolesAFavor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GolesEnContra)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DifGoles)
+                    </td>
 
-        </tr>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
