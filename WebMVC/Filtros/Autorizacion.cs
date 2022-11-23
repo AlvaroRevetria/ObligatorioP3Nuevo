@@ -21,7 +21,7 @@ namespace WebMVC.Filtros
         {
             string rolUsuario = context.HttpContext.Session.GetString("rol");
 
-            if (rolUsuario == null || !Roles.Any(rol => rol == rolUsuario)) // !Roles.Contains(rolUsuario)
+            if (rolUsuario == null || !Roles.Any(rol => rol == rolUsuario))
             {
                 context.Result = new RedirectToActionResult("login", "usuarios", null);
             }
