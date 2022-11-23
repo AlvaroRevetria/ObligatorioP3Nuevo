@@ -123,9 +123,9 @@ namespace WebApi.Controllers
             
         }
 
-        // GET api/<PartidosController>/seleccion/nombre
-        [HttpGet("seleccion/{nombre}")]
-        public IActionResult GetBuscarPorSeleccion(string nombre)
+        // GET api/<PartidosController>/seleccion-pais/nombre
+        [HttpGet("seleccion-pais/{nombre}")]
+        public IActionResult GetBuscarPorSeleccionOPais(string nombre)
         {
             try
             {

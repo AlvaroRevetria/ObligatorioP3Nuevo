@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PartidoDTOViewModel>
+
+@{
+    ViewData["Title"] = "BuscarPorFechas";
+}
+
+<h1>Partidos entre 2 fechas</h1>
+<span class="text-danger">@ViewBag.Error</span>
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+<span class="text-warning">@ViewBag.Message</span>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hora)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NombreSeleccion1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GolesSeleccion1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NombreSeleccion2)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GolesSeleccion2)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Estado)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreSeleccion1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GolesSeleccion1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreSeleccion2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GolesSeleccion2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

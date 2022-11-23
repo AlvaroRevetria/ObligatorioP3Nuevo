@@ -10,5 +10,7 @@ namespace LogicaNegocio.InterfacesRepositorios
         int CalcularGolesAFavor(Seleccion seleccion);
         int CalcularGolesEnContra(Seleccion seleccion);
 
+        IEnumerable<Seleccion> SeleccionesPorGrupo(string nombreGrupo);
+
     }
 }

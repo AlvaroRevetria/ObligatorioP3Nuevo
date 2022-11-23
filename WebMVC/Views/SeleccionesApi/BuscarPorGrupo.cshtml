@@ -1,29 +1,34 @@
-﻿@model IEnumerable<DTOS.DtoSeleccion>
+﻿@model IEnumerable<SeleccionDTOViewModel>
 
 @{
     ViewData["Title"] = "BuscarPorGrupo";
 }
 
 <h1>Listado por Grupo</h1>
-
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+                @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.puntos)
+                @Html.DisplayNameFor(model => model.Bandera)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.golesAFavor)
+                @Html.DisplayNameFor(model => model.Puntos)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.golesEnContra)
+                @Html.DisplayNameFor(model => model.GolesAFavor)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.difGoles)
+                @Html.DisplayNameFor(model => model.GolesEnContra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DifGoles)
             </th>
             <th></th>
         </tr>
@@ -32,21 +37,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.nombre)
+                @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.puntos)
+                <image src="/Banderas/@item.Bandera" height="50px"></image>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.golesAFavor)
+                @Html.DisplayFor(modelItem => item.Puntos)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.golesEnContra)
+                @Html.DisplayFor(modelItem => item.GolesAFavor)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.difGoles)
+                @Html.DisplayFor(modelItem => item.GolesEnContra)
             </td>
-            
+            <td>
+                @Html.DisplayFor(modelItem => item.DifGoles)
+            </td>
+
         </tr>
 }
     </tbody>

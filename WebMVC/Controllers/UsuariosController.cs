@@ -21,7 +21,7 @@ namespace WebMVC.Controllers
         {
             UrlRoles = configuration.GetValue<string>("UrlRoles");
             UrlUsuarios = configuration.GetValue<string>("UrlUsuarios");
-           
+
         }
 
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebMVC.Controllers
             }
             bool encontrado = false;
 
-            foreach ( DTOUsuario u in usuarios) 
+            foreach (DTOUsuario u in usuarios)
             {
 
                 if (vm.usuario.Email == u.Email && vm.usuario.Password == u.Password)
@@ -70,18 +70,18 @@ namespace WebMVC.Controllers
                     }
                 }
 
-                    foreach (DTORol rol in rolesUsuario)
+                foreach (DTORol rol in rolesUsuario)
+                {
+
+                    if (rol.Id == vm.IdRolSeleccionado)
                     {
-
-                        if (rol.Id == vm.IdRolSeleccionado)
-                        {
-                            encontrado = true;
-                            HttpContext.Session.SetString("rol", rol.Nombre);
-                        }
-
+                        encontrado = true;
+                        HttpContext.Session.SetString("rol", rol.Nombre);
                     }
-                
-               
+
+                }
+
+
             }
             if (!encontrado)
             {
@@ -113,6 +113,7 @@ namespace WebMVC.Controllers
         public ActionResult Create(UsuarioDTOViewModel vm)
         {
             try
+
             {                
                 HttpClient cliente = new HttpClient();
                
@@ -128,7 +129,7 @@ namespace WebMVC.Controllers
                 else
                 {
                     ViewBag.Error = "No se pudo dar de alte el usuario. Error: " + ObtenerBody(respuesta);
-                    
+
                     return View();
                 }
             }

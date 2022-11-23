@@ -63,27 +63,29 @@ namespace WebApi.Controllers
         {
             try
             {
-                IEnumerable<Seleccion> selecciones = RepoSelecciones.FindAll();
-                IEnumerable<Seleccion>  seleccionesGrupo = selecciones.Where(s => s.Grupo.Nombre == nombre).ToList();
-                List<DtoSeleccion> seleccionesResult = new List<DtoSeleccion>();
+
+                IEnumerable<Seleccion> seleccionesGrupo = RepoSelecciones.SeleccionesPorGrupo(nombre);
+
+                List<DTOSeleccion> seleccionesResult = new List<DTOSeleccion>();
 
                 foreach (var s in seleccionesGrupo)
                 {
-                    DtoSeleccion dtoSeleccion = new DtoSeleccion();
+                    DTOSeleccion dtoSeleccion = new DTOSeleccion();
                     int golesAFavor = RepoSelecciones.CalcularGolesAFavor(s);
                     int golesEnContra = RepoSelecciones.CalcularGolesEnContra(s);
                     int diferenciaDeGoles = golesAFavor - golesEnContra;
-                    dtoSeleccion.nombre = s.Nombre;
-                    dtoSeleccion.puntos = s.Puntos;
-                    dtoSeleccion.golesAFavor = golesAFavor;
-                    dtoSeleccion.golesEnContra = golesEnContra;
-                    dtoSeleccion.difGoles = diferenciaDeGoles;
+                    dtoSeleccion.Nombre = s.Nombre;
+                    dtoSeleccion.Puntos = s.Puntos;
+                    dtoSeleccion.GolesAFavor = golesAFavor;
+                    dtoSeleccion.GolesEnContra = golesEnContra;
+                    dtoSeleccion.DifGoles = diferenciaDeGoles;
+                    dtoSeleccion.Bandera = s.Pais.Bandera;
 
                     seleccionesResult.Add(dtoSeleccion);
                 }
                 if (seleccionesResult.Count() == 0) return NotFound();
                
-                return Ok(seleccionesResult.OrderByDescending(s => s.puntos));
+                return Ok(seleccionesResult.OrderByDescending(s => s.Puntos));
             }
             catch (Exception ex)
             {

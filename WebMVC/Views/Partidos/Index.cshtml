@@ -1,0 +1,86 @@
+﻿@model IEnumerable<PartidoDTOViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Partidos</h1>
+<div>
+    <form action="/Partidos/BuscarPorGrupo" method="post">
+        <label for="NomGrupo">Ingrese Nombre del Grupo</label>
+        <input type="text" id="GrupoNom" name="nombreGrupo" />
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </form>
+    <form action="/Partidos/BuscarPorSeleccionOPais" method="post">
+        <label for="NomSelecPais">Ingrese Nombre de la Selección o del País</label>
+        <input type="text" id="NomSelecPais" name="nombre" />
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </form>
+    <form action="/Partidos/BuscarPorCodigoIsoPais" method="post">
+        <label for="CodPais">Ingrese el código de Pais</label>
+        <input type="text" id="CodPais" name="codigo" />
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </form>
+    <form action="/Partidos/BuscarPorFechas" method="post">
+        <label for="FechaDeste">Ingrese la fecha inicial</label>
+        <input type="date" id="FechaDeste" name="fechaDeste" />
+        <label for="FechaHasta">Ingrese la fecha final</label>
+        <input type="date" id="FechaHasta" name="fechaHasta" />
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </form>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreSeleccion1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GolesSeleccion1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreSeleccion2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GolesSeleccion2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreSeleccion1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GolesSeleccion1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreSeleccion2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GolesSeleccion2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

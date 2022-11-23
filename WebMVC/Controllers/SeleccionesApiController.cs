@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WebMVC.Filtros;
 using WebMVC.Models;
 
 namespace WebMVC.Controllers
@@ -323,15 +322,6 @@ namespace WebMVC.Controllers
                 return View(s);
             }
         }
-        private string ObtenerBody(HttpResponseMessage respuesta)
-        {
-            HttpContent contenido = respuesta.Content;
-
-            Task<string> tarea2 = contenido.ReadAsStringAsync();
-            tarea2.Wait();
-
-            return tarea2.Result;
-        }
         private Seleccion BuscarPorId(int id)
             {
                 Seleccion s = null;
@@ -357,10 +347,9 @@ namespace WebMVC.Controllers
 
                 return s;
             }
-        [Autorizacion("Apostador", "Admin")]
         public ActionResult BuscarPorGrupo(string nombreGrupo)
         {
-            List<DtoSeleccion> seleccionesPorGrupo = new List<DtoSeleccion>();
+            List<SeleccionDTOViewModel> seleccionesPorGrupo = new List<SeleccionDTOViewModel>();
             try
             {
                 HttpClient cliente = new HttpClient();
@@ -372,9 +361,9 @@ namespace WebMVC.Controllers
 
                 string txt = ObtenerBody(respuesta);
 
-                if (respuesta.IsSuccessStatusCode) //status code de la serie 200
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    seleccionesPorGrupo = JsonConvert.DeserializeObject<List<DtoSeleccion>>(txt);
+                    seleccionesPorGrupo = JsonConvert.DeserializeObject<List<SeleccionDTOViewModel>>(txt);
                     return View(seleccionesPorGrupo);
                 }
                 else
@@ -389,6 +378,15 @@ namespace WebMVC.Controllers
                 ViewBag.Error = "Ups! Ocurrión un error " + ex.Message;
                 return View(seleccionesPorGrupo);
             }
+        }
+        private string ObtenerBody(HttpResponseMessage respuesta)
+        {
+            HttpContent contenido = respuesta.Content;
+
+            Task<string> tarea2 = contenido.ReadAsStringAsync();
+            tarea2.Wait();
+
+            return tarea2.Result;
         }
         private HttpResponseMessage Message(string url)
             {

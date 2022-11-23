@@ -1,13 +1,15 @@
-﻿@model IEnumerable<LogicaNegocio.Dominio.Seleccion>
+@model IEnumerable<LogicaNegocio.Dominio.Seleccion>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Selecciones</h1>
+<span class="text-danger">@ViewBag.Error</span>
+
 <div>
     <form action="/SeleccionesApi/BuscarPorGrupo" method="post">
-        <label for="IdPais">Ingrese Nombre del Grupo</label>
+        <label for="NomGrupo">Ingrese Nombre del Grupo</label>
         <input type="text" id="GrupoNom" name="nombreGrupo" />
         <button class="btn btn-primary" type="submit">Buscar</button>
     </form>
@@ -52,6 +54,7 @@
         </tr>
     </thead>
     <tbody>
+
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -92,5 +95,6 @@
             </td>
         </tr>
 }
+
     </tbody>
 </table>

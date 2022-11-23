@@ -23,7 +23,7 @@
                 <input asp-for="usuario.Password" class="form-control" />
                 <span asp-validation-for="usuario.Password" class="text-danger"></span>
             </div>
-            <div class ="form-group">
+            <div class="form-group">
                 <select class="form-control" name="IdRolSeleccionado" id="roles">
                     @if (Model.Roles != null)
                     {@foreach (var rol in Model.Roles)
@@ -33,15 +33,15 @@
 
                 </select>
             </div>
-    <div class="form-group">
-        <input type="submit" value="Login" class="btn btn-primary" />
-    </div>
-    </form>
-    <form action="/Usuarios/Create" method="get">
-        <button class="btn btn-primary" type="submit">Crear</button>
-    </form>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+        <form action="/Usuarios/Create" method="get">
+            <button class="btn btn-primary" type="submit">Crear</button>
+        </form>
 
-</div>
+    </div>
 </div>
 
 <div>
