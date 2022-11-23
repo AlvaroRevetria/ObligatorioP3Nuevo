@@ -35,7 +35,7 @@ namespace WebMVC
         {
             services.AddControllersWithViews();
             //Contexto EntityFramework
-            string strCon = Configuration.GetConnectionString("ConeccionAna");
+            string strCon = Configuration.GetConnectionString("ConeccionAlvaro");
             services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strCon));
             // INYECCIONES PARA CONTROLLERS(CU)
             services.AddScoped<IAltaPais, AltaPais>();

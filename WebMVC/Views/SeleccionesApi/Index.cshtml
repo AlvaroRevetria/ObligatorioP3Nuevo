@@ -1,4 +1,4 @@
-@model IEnumerable<LogicaNegocio.Dominio.Seleccion>
+@model IEnumerable< WebMVC.Models.VmSeleccion >
 
 @{
     ViewData["Title"] = "Index";
@@ -11,6 +11,13 @@
     <form action="/SeleccionesApi/BuscarPorGrupo" method="post">
         <label for="NomGrupo">Ingrese Nombre del Grupo</label>
         <input type="text" id="GrupoNom" name="nombreGrupo" />
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </form>
+</div><br />
+<div>
+    <form action="/SeleccionesApi/Details" method="Get">
+        <label for="Id">Ingrese Id de la Seleccion</label>
+        <input type="text" id="id" name="Id" />
         <button class="btn btn-primary" type="submit">Buscar</button>
     </form>
 </div>
