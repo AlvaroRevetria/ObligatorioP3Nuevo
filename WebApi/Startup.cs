@@ -40,7 +40,7 @@ namespace WebApi
             services.AddScoped<IRepositorioGrupos, RepositorioGrupos>();
 
 
-            string strCon = Configuration.GetConnectionString("ConeccionAna");
+            string strCon = Configuration.GetConnectionString("ConeccionAlvaro");
             services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(strCon));
 
         }

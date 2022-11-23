@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using WebMVC.Filtros;
 using WebMVC.Models;
 
 namespace WebMVC.Controllers
@@ -20,6 +21,7 @@ namespace WebMVC.Controllers
             UrlPartidos = configuration.GetValue<string>("UrlPartidos");
         }
         // GET: PartidosController
+        [Autorizacion("Apostador", "Admin")]
         public ActionResult Index()
         {
             List<PartidoDTOViewModel> partidos = new List<PartidoDTOViewModel>();
@@ -50,7 +52,7 @@ namespace WebMVC.Controllers
                 return View(partidos);
             }
         }
-
+        [Autorizacion( "Admin")]
         // GET: PartidosController/Details/5
         public ActionResult Details(int id)
         {
@@ -62,7 +64,7 @@ namespace WebMVC.Controllers
         {
             return View();
         }
-
+        [Autorizacion("Admin")]
         // POST: PartidosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -77,13 +79,13 @@ namespace WebMVC.Controllers
                 return View();
             }
         }
-
+        [Autorizacion("Admin")]
         // GET: PartidosController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
-
+        [Autorizacion("Admin")]
         // POST: PartidosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -98,13 +100,13 @@ namespace WebMVC.Controllers
                 return View();
             }
         }
-
+        [Autorizacion("Admin")]
         // GET: PartidosController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
-
+        [Autorizacion("Admin")]
         // POST: PartidosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -119,7 +121,7 @@ namespace WebMVC.Controllers
                 return View();
             }
         }
-
+        [Autorizacion("Apostador", "Admin")]
         public ActionResult BuscarPorGrupo(string nombreGrupo)
         {
             List<PartidoDTOViewModel> partidosPorGrupo = new List<PartidoDTOViewModel>();
@@ -151,7 +153,7 @@ namespace WebMVC.Controllers
                 return View(partidosPorGrupo);
             }
         }
-
+        [Autorizacion("Apostador", "Admin")]
         public ActionResult BuscarPorSeleccionOPais(string nombre)
         {
             List<PartidoDTOViewModel> partidosPorSeleccionOPais = new List<PartidoDTOViewModel>();
@@ -184,7 +186,7 @@ namespace WebMVC.Controllers
                 return View(partidosPorSeleccionOPais);
             }
         }
-
+        [Autorizacion("Apostador", "Admin")]
         public ActionResult BuscarPorCodigoIsoPais(string codigo)
         {
             List<PartidoDTOViewModel> partidosPorPais = new List<PartidoDTOViewModel>();
@@ -216,7 +218,7 @@ namespace WebMVC.Controllers
                 return View(partidosPorPais);
             }
         }
-
+        [Autorizacion("Apostador", "Admin")]
         public ActionResult BuscarPorFechas(string fechaDeste, string fechaHasta)
         {
             List<PartidoDTOViewModel> partidosPorFechas = new List<PartidoDTOViewModel>();
@@ -248,10 +250,11 @@ namespace WebMVC.Controllers
                 return View(partidosPorFechas);
             }
         }
-
+        [Autorizacion("Apostador", "Admin")]
         private List<PartidoDTOViewModel> ObtenerPartidos(string txt)
         {
             List<PartidoDTOViewModel> dtoPartidos = new List<PartidoDTOViewModel>();
+              
             List<Partido> partidos = JsonConvert.DeserializeObject<List<Partido>>(txt);
             foreach (var p in partidos)
             {

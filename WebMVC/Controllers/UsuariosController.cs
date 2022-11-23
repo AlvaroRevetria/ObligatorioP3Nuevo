@@ -9,6 +9,7 @@ using WebMVC.Models;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 
+
 namespace WebMVC.Controllers
 {
     public class UsuariosController : Controller
@@ -83,7 +84,7 @@ namespace WebMVC.Controllers
             }
             if (!encontrado)
             {
-                ViewBag.Error = "Rol no asignado a su usuario";
+                ViewBag.Error = " Usuario, Password o Rol incorrecto";
                 HttpResponseMessage respuestaRoles = Message(UrlRoles);
                 List<RolDTOViewModel> roles = new List<RolDTOViewModel>();
                 if (respuestaRoles.IsSuccessStatusCode)
@@ -95,6 +96,7 @@ namespace WebMVC.Controllers
                 vm.Roles = roles;
                 return View(vm);
             }
+           if(HttpContext.Session.GetString("rol") == "Apostador") { return RedirectToAction(nameof(Index), "Partidos"); }
 
             return RedirectToAction(nameof(Index), "SeleccionesApi");
         }
@@ -164,6 +166,12 @@ namespace WebMVC.Controllers
             HttpResponseMessage respuesta = tarea1.Result;
 
             return respuesta;
+        }
+
+        public ActionResult ErrorRol()
+        {
+            
+            return View();
         }
     }
 }

@@ -4,9 +4,9 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h1>LOGIN</h1>
 <span class="text-danger">@ViewBag.Error</span>
-<h4>Login</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="usuario.Password" class="control-label"></label>
-                <input asp-for="usuario.Password" class="form-control" />
+                <input type="password" asp-for="usuario.Password" class="form-control" />
                 <span asp-validation-for="usuario.Password" class="text-danger"></span>
             </div>
             <div class="form-group">

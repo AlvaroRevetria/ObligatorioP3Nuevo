@@ -23,7 +23,8 @@ namespace WebMVC.Filtros
 
             if (rolUsuario == null || !Roles.Any(rol => rol == rolUsuario))
             {
-                context.Result = new RedirectToActionResult("login", "usuarios", null);
+                context.Result = new RedirectToActionResult("ErrorRol", "usuarios", null);
+               
             }
         }
     }

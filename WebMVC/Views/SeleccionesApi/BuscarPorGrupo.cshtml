@@ -4,12 +4,9 @@
     ViewData["Title"] = "BuscarPorGrupo";
 }
 
-<h1>Listado por Grupo</h1>
+<h1>Tabla de posiciones del Grupo </h1>
 <span class="text-danger">@ViewBag.Error</span>
-<div>
-    <a asp-action="Index">Volver</a>
-</div>
-<span class="text-warning">@ViewBag.Message</span>
+
 
 @if (Model.Count() > 0)
 {

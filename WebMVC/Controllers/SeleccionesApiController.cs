@@ -1,4 +1,4 @@
-﻿using LogicaNegocio.Dominio;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -12,6 +12,7 @@ using WebMVC.Models;
 
 namespace WebMVC.Controllers
 {
+    
     public class SeleccionesApiController : Controller
        
     {
@@ -27,6 +28,7 @@ namespace WebMVC.Controllers
 
         // GET: S
         // eleccionesApiController
+        [Autorizacion("Invitado", "Admin")]
         public ActionResult Index()
         {
             try
@@ -42,13 +44,13 @@ namespace WebMVC.Controllers
 
                 if (respuesta.IsSuccessStatusCode) //status code de la serie 200
                 {
-                    List<Seleccion> selecciones = JsonConvert.DeserializeObject<List<Seleccion>>(txt);
+                    List<VmSeleccion> selecciones = JsonConvert.DeserializeObject<List<VmSeleccion>>(txt);
                     return View(selecciones);
                 }
                 else
                 {
                     ViewBag.Error = "No se pudo obtener la lista de selecciones. Error: " + respuesta.ReasonPhrase + " " + txt;
-                    return View(new List<Seleccion>());
+                    return View(new List<VmSeleccion>());
                 }
             }
             catch (Exception ex)
@@ -58,14 +60,15 @@ namespace WebMVC.Controllers
                 return View();
             }
         }
-    
+
 
         // GET: SeleccionesApiController/Details/5
+        [Autorizacion("Invitado", "Admin")]
         public ActionResult Details(int id)
         {
             try
             {
-                Seleccion seleccion = BuscarPorId(id);
+                VmSeleccion seleccion = BuscarPorId(id);
                 return View(seleccion);
             }
             catch (Exception ex)
@@ -77,17 +80,18 @@ namespace WebMVC.Controllers
         }
 
         // GET: SeleccionesApiController/Create
+        [Autorizacion("Admin")]
         public ActionResult Create()
         {
             SeleccionViewModel vm = new SeleccionViewModel();
 
-            List<Grupo> grupos = ObtenerGrupos();
+            List<VmGrupo> grupos = ObtenerGrupos();
             if(grupos.Count > 0)
             {
                 vm.grupos = grupos;
             }
 
-            List<Pais> paises = ObtenerPaises();
+            List<VmPais> paises = ObtenerPaises();
             if(paises.Count > 0)
             {
                 vm.paises = paises;
@@ -97,6 +101,7 @@ namespace WebMVC.Controllers
         }
 
         // POST: SeleccionesApiController/Create
+        [Autorizacion("Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(SeleccionViewModel vm)
@@ -118,13 +123,13 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
-                    List<Grupo> grupos = ObtenerGrupos();
+                    List<VmGrupo> grupos = ObtenerGrupos();
                     if (grupos.Count > 0)
                     {
                         vm.grupos = grupos;
                     }
 
-                    List<Pais> paises = ObtenerPaises();
+                    List<VmPais> paises = ObtenerPaises();
                     if (paises.Count > 0)
                     {
                         vm.paises = paises;
@@ -136,13 +141,13 @@ namespace WebMVC.Controllers
             }
             catch (Exception e)
             {
-                List<Grupo> grupos = ObtenerGrupos();
+                List<VmGrupo> grupos = ObtenerGrupos();
                 if (grupos.Count > 0)
                 {
                     vm.grupos = grupos;
                 }
 
-                List<Pais> paises = ObtenerPaises();
+                List<VmPais> paises = ObtenerPaises();
                 if (paises.Count > 0)
                 {
                     vm.paises = paises;
@@ -154,28 +159,30 @@ namespace WebMVC.Controllers
         }
 
         // GET: SeleccionesApiController/Edit/5
+        [Autorizacion("Admin")]
         public ActionResult Edit(int id)
         {
             SeleccionViewModel vm = new SeleccionViewModel();
-            List<Grupo> grupos = ObtenerGrupos();
+            List<VmGrupo> grupos = ObtenerGrupos();
             if (grupos.Count > 0)
             {
                 vm.grupos = grupos;
             }
 
-            List<Pais> paises = ObtenerPaises();
+            List<VmPais> paises = ObtenerPaises();
             if (paises.Count > 0)
             {
                 vm.paises = paises;
             }
 
-            Seleccion s = BuscarPorId(id);
+            VmSeleccion s = BuscarPorId(id);
             vm.seleccion = s;
 
             return View(vm);
         }
 
         // POST: SeleccionesApiController/Edit/5
+        [Autorizacion("Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, SeleccionViewModel vm)
@@ -197,13 +204,13 @@ namespace WebMVC.Controllers
                 }
                 else
                 {
-                    List<Grupo> grupos = ObtenerGrupos();
+                    List<VmGrupo> grupos = ObtenerGrupos();
                     if (grupos.Count > 0)
                     {
                         vm.grupos = grupos;
                     }
 
-                    List<Pais> paises = ObtenerPaises();
+                    List<VmPais> paises = ObtenerPaises();
                     if (paises.Count > 0)
                     {
                         vm.paises = paises;
@@ -216,13 +223,13 @@ namespace WebMVC.Controllers
             }
             catch (Exception e)
             {
-                List<Grupo> grupos = ObtenerGrupos();
+                List<VmGrupo> grupos = ObtenerGrupos();
                 if (grupos.Count > 0)
                 {
                     vm.grupos = grupos;
                 }
 
-                List<Pais> paises = ObtenerPaises();
+                List<VmPais> paises = ObtenerPaises();
                 if (paises.Count > 0)
                 {
                     vm.paises = paises;
@@ -234,11 +241,12 @@ namespace WebMVC.Controllers
         }
 
         // GET: SeleccionesApiController/Delete/5
+        [Autorizacion("Admin")]
         public ActionResult Delete(int id)
         {
             try
             {
-                Seleccion s = BuscarPorId(id);
+                VmSeleccion s = BuscarPorId(id);
                 if (s == null)
                 {
                     ViewBag.Error = "No existe el seleccion a borrar";
@@ -256,7 +264,8 @@ namespace WebMVC.Controllers
         // POST: SeleccionesApiController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Seleccion s)
+        [Autorizacion("Admin")]
+        public ActionResult Delete(int id, VmSeleccion s)
         {
             try
             {
@@ -289,9 +298,10 @@ namespace WebMVC.Controllers
                 return View(s);
             }
         }
-        private Seleccion BuscarPorId(int id)
+        [Autorizacion("Invitado", "Admin")]
+        private VmSeleccion BuscarPorId(int id)
             {
-                Seleccion s = null;
+                VmSeleccion s = null;
 
                 HttpClient cliente = new HttpClient();
 
@@ -309,13 +319,13 @@ namespace WebMVC.Controllers
 
                     string json = tarea2.Result;
 
-                    s = JsonConvert.DeserializeObject<Seleccion>(json);
+                    s = JsonConvert.DeserializeObject<VmSeleccion>(json);
                 }
 
                 return s;
             }
 
-        [Autorizacion("Apostador", "Admin")]
+        [Autorizacion("Invitado", "Admin","Apostador")]
         public ActionResult BuscarPorGrupo(string nombreGrupo)
         {
             List<SeleccionDTOViewModel> seleccionesPorGrupo = new List<SeleccionDTOViewModel>();
@@ -323,8 +333,8 @@ namespace WebMVC.Controllers
             {
                 HttpClient cliente = new HttpClient();
 
-                List<Grupo> grupos = ObtenerGrupos();
-                Grupo grupoIngresado = grupos.Where(g => g.Nombre == nombreGrupo).FirstOrDefault();
+                List<VmGrupo> grupos = ObtenerGrupos();
+                VmGrupo grupoIngresado = grupos.Where(g => g.Nombre == nombreGrupo).FirstOrDefault();
 
                 if (grupoIngresado == null)
                 {
@@ -382,27 +392,27 @@ namespace WebMVC.Controllers
                 return respuesta;
             }
 
-        private List<Grupo> ObtenerGrupos()
+        private List<VmGrupo> ObtenerGrupos()
         {
             HttpResponseMessage respuestaGrupo = Message(UrlGrupos);
-            List<Grupo> grupos = new List<Grupo>();
+            List<VmGrupo> grupos = new List<VmGrupo>();
             if (respuestaGrupo.IsSuccessStatusCode)
             {
                 string txt = ObtenerBody(respuestaGrupo);
-                grupos = JsonConvert.DeserializeObject<List<Grupo>>(txt);
+                grupos = JsonConvert.DeserializeObject<List<VmGrupo>>(txt);
             }
 
             return grupos;
         }
 
-        private List<Pais> ObtenerPaises()
+        private List<VmPais> ObtenerPaises()
         {
             HttpResponseMessage respuestaPais = Message(UrlPaises);
-            List<Pais> paises = new List<Pais>();
+            List<VmPais> paises = new List<VmPais>();
             if (respuestaPais.IsSuccessStatusCode)
             {
                 string txt = ObtenerBody(respuestaPais);
-                paises = JsonConvert.DeserializeObject<List<Pais>>(txt);
+                paises = JsonConvert.DeserializeObject<List<VmPais>>(txt);
             }
             return paises;
         }

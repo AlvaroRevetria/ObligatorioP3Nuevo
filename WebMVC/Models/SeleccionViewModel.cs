@@ -8,9 +8,9 @@ namespace WebMVC.Models
 {
     public class SeleccionViewModel
     {
-        public Seleccion seleccion { get; set; }
-        public IEnumerable<Pais> paises { get; set; }
-        public IEnumerable<Grupo> grupos { get; set; }       
+        public VmSeleccion seleccion { get; set; }
+        public IEnumerable<VmPais> paises { get; set; }
+        public IEnumerable<VmGrupo> grupos { get; set; }       
         public int IdPaisSeleccionado { get; set; }
         public int IdGrupoSeleccionado { get; set; }
        
