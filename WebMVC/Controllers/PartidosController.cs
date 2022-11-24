@@ -1,5 +1,4 @@
-﻿using LogicaNegocio.Dominio;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -255,7 +254,7 @@ namespace WebMVC.Controllers
         {
             List<PartidoDTOViewModel> dtoPartidos = new List<PartidoDTOViewModel>();
               
-            List<Partido> partidos = JsonConvert.DeserializeObject<List<Partido>>(txt);
+            List<vmPartido> partidos = JsonConvert.DeserializeObject<List<vmPartido>>(txt);
             foreach (var p in partidos)
             {
                 PartidoDTOViewModel dtoPartido = new PartidoDTOViewModel();

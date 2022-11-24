@@ -69,6 +69,10 @@ namespace WebMVC.Controllers
             try
             {
                 VmSeleccion seleccion = BuscarPorId(id);
+                if (seleccion == null)
+                {
+                    ViewBag.Error = "No existe selección con id: " + id;
+                }
                 return View(seleccion);
             }
             catch (Exception ex)
@@ -334,15 +338,15 @@ namespace WebMVC.Controllers
                 HttpClient cliente = new HttpClient();
 
                 List<VmGrupo> grupos = ObtenerGrupos();
-                VmGrupo grupoIngresado = grupos.Where(g => g.Nombre == nombreGrupo).FirstOrDefault();
+                VmGrupo grupoIngresado = grupos.Where(g => g.Nombre == nombreGrupo.ToUpper()).FirstOrDefault();
 
                 if (grupoIngresado == null)
                 {
-                    ViewBag.Error = "El grupo " + nombreGrupo + " no existe";
+                    ViewBag.Error = "El grupo " + nombreGrupo.ToUpper() + " no existe";
                     return View(seleccionesPorGrupo);
                 }
 
-                Task<HttpResponseMessage> tarea1 = cliente.GetAsync(UrlSelecciones + "/grupo/" + nombreGrupo);
+                Task<HttpResponseMessage> tarea1 = cliente.GetAsync(UrlSelecciones + "/grupo/" + nombreGrupo.ToUpper());
                 tarea1.Wait();
 
                 HttpResponseMessage respuesta = tarea1.Result;
@@ -356,6 +360,7 @@ namespace WebMVC.Controllers
                     {
                         ViewBag.Message = "No se han encontrado resultados";
                     }
+                    ViewBag.NombGrupo = nombreGrupo.ToUpper();
                     return View(seleccionesPorGrupo);
                 }
                 else
