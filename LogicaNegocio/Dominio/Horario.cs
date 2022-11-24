@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Excepciones;
+using LogicaNegocio.InterfacesDominio;
 
 namespace LogicaNegocio.Dominio
 {
-    public class Horario
+    public class Horario : IValidable
     {
         public int Id { get; set; }
         public string Hora { get; set; }
