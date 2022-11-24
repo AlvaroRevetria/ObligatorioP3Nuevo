@@ -217,7 +217,7 @@ namespace LogicaAccesoDatos.BaseDatos
             IEnumerable<Partido> partidos = FindAll();
             foreach (Partido p in partidos)
             {
-                if (p.Seleccion1.Grupo.Nombre == nombreGrupo || p.Seleccion2.Grupo.Nombre == nombreGrupo)
+                if (p.Seleccion1.Grupo.Nombre == nombreGrupo.ToUpper() || p.Seleccion2.Grupo.Nombre == nombreGrupo.ToUpper())
                 {
                     if(!partidosPorGrupo.Contains(p))
                     {
